@@ -1,4 +1,4 @@
-name: Prueba estadio 3D profesional V2
+name: V3 - Campo realista y camiseta animada
 
 on:
   workflow_dispatch:
@@ -7,41 +7,38 @@ jobs:
   render:
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Node.js
+      - name: Node
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Instalar Playwright
+      - name: Playwright
         run: |
           npm init -y
           npm install playwright@1.55.0
           npx playwright install --with-deps chromium
 
-      - name: Instalar FFmpeg
+      - name: FFmpeg
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      - name: Renderizar escena 3D
+      - name: Render
         run: node render.js
 
-      - name: Crear MP4 vertical
+      - name: MP4
         run: |
           ffmpeg -y -i recording.webm \
             -vf "fps=30,scale=1080:1920:flags=lanczos" \
-            -c:v libx264 -preset medium -crf 20 \
+            -c:v libx264 -preset medium -crf 19 \
             -pix_fmt yuv420p -movflags +faststart \
-            villa-estadio-3d-v2.mp4
+            villa-v3-campo-camiseta.mp4
 
-      - name: Subir vídeo
+      - name: Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: villa-estadio-3d-v2
-          path: villa-estadio-3d-v2.mp4
-          if-no-files-found: error
+          name: villa-v3-campo-camiseta
+          path: villa-v3-campo-camiseta.mp4
