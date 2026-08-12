@@ -1,0 +1,43 @@
+name: Prueba escena 3D Villa
+
+on:
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Descargar proyecto
+        uses: actions/checkout@v4
+
+      - name: Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Instalar Playwright
+        run: |
+          npm init -y
+          npm install playwright
+          npx playwright install --with-deps chromium
+
+      - name: Instalar FFmpeg
+        run: sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Capturar escena 3D
+        run: node render.js
+
+      - name: Convertir a MP4
+        run: |
+          mkdir -p output
+          ffmpeg -y -i recording.webm \
+            -vf "scale=1080:1920:force_original_aspect_ratio=decrease,pad=1080:1920:(ow-iw)/2:(oh-ih)/2" \
+            -c:v libx264 -pix_fmt yuv420p -movflags +faststart \
+            output/villa-prueba-3d.mp4
+
+      - name: Guardar vídeo
+        uses: actions/upload-artifact@v4
+        with:
+          name: villa-prueba-3d
+          path: output/villa-prueba-3d.mp4
