@@ -24,6 +24,11 @@ jobs:
         run: |
           blender --background --python scene.py
 
+      - name: Comprobar render
+        run: |
+          test -f villa-v4-preview.mp4
+          ls -lh villa-v4-preview.mp4
+
       - name: Renombrar vídeo
         run: |
           mv villa-v4-preview.mp4 villa-v4-estadio-3d.mp4
