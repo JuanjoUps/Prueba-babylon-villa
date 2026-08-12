@@ -1,0 +1,71 @@
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020604}
+body{font-family:Arial,Helvetica,sans-serif}
+.scene{position:relative;width:1080px;height:1920px;overflow:hidden;background:
+ radial-gradient(ellipse at 50% 45%,rgba(21,75,43,.34),transparent 47%),
+ linear-gradient(#020604 0%,#07130d 34%,#020805 100%);color:white}
+.scene:after{content:"";position:absolute;inset:0;pointer-events:none;
+ background:radial-gradient(ellipse at center,transparent 42%,rgba(0,0,0,.65) 100%);
+ z-index:20}
+.stadium-glow{position:absolute;left:-15%;top:25%;width:130%;height:52%;
+ background:radial-gradient(ellipse,rgba(115,170,115,.16),transparent 65%);filter:blur(20px)}
+.stands{position:absolute;left:-8%;width:116%;height:300px;opacity:.82;
+ background:
+ repeating-linear-gradient(90deg,transparent 0 34px,rgba(31,93,56,.65) 35px 37px),
+ repeating-linear-gradient(0deg,rgba(10,21,15,.95) 0 30px,rgba(37,65,47,.8) 31px 35px);
+ border-top:2px solid rgba(214,177,50,.35)}
+.stands-top{top:290px;transform:perspective(600px) rotateX(55deg);transform-origin:bottom}
+.stands-bottom{bottom:285px;transform:perspective(600px) rotateX(-55deg);transform-origin:top}
+.light{position:absolute;width:520px;height:520px;border-radius:50%;
+ background:radial-gradient(circle,rgba(255,246,205,.42) 0,rgba(255,245,190,.12) 24%,transparent 68%);
+ filter:blur(8px);z-index:1}
+.light-a{left:-230px;top:30px}.light-b{right:-230px;top:40px}
+.light-c{left:-240px;bottom:80px}.light-d{right:-240px;bottom:90px}
+.title{position:absolute;top:75px;left:50px;right:50px;text-align:center;z-index:10;
+ text-shadow:0 5px 22px #000}
+.eyebrow{display:inline-block;padding:11px 26px;border:1px solid #d4ad2b;border-radius:24px;
+ background:rgba(2,35,20,.78);font-size:23px;font-weight:900;letter-spacing:3px}
+h1{font-size:67px;line-height:.95;margin:20px 0 9px;font-weight:1000;letter-spacing:2px}
+.sub{font-size:22px;font-weight:700;letter-spacing:2px;opacity:.82}
+.pitch{position:absolute;left:55px;right:55px;top:470px;height:1110px;
+ transform:perspective(1100px) rotateX(9deg);
+ background:
+ repeating-linear-gradient(90deg,rgba(255,255,255,.018) 0 75px,rgba(0,0,0,.055) 76px 150px),
+ linear-gradient(180deg,#176c32,#0b4f27);
+ border:10px solid #0a351b;box-shadow:0 25px 70px #000, inset 0 0 80px rgba(0,0,0,.5);
+ overflow:hidden}
+.grass-noise{position:absolute;inset:0;opacity:.14;background-image:
+ repeating-linear-gradient(35deg,transparent 0 5px,rgba(255,255,255,.06) 6px 7px),
+ repeating-linear-gradient(-35deg,transparent 0 7px,rgba(0,0,0,.07) 8px 9px)}
+.pitch-lines{position:absolute;inset:25px;border:5px solid rgba(255,255,255,.86)}
+.pitch-lines:after{content:"";position:absolute;left:0;right:0;top:50%;height:5px;background:rgba(255,255,255,.86)}
+.center-circle{position:absolute;width:255px;height:255px;border:5px solid rgba(255,255,255,.86);
+ border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
+.center-dot{position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;left:50%;top:50%;transform:translate(-50%,-50%)}
+.box{position:absolute;left:50%;width:400px;height:205px;transform:translateX(-50%);
+ border:5px solid rgba(255,255,255,.86)}
+.top-box{top:25px}.bottom-box{bottom:25px}
+.goal{position:absolute;left:50%;width:210px;height:65px;transform:translateX(-50%);
+ border:5px solid rgba(255,255,255,.9);background:repeating-linear-gradient(90deg,transparent 0 13px,rgba(255,255,255,.12) 14px 15px)}
+.top-goal{top:-3px}.bottom-goal{bottom:-3px}
+.jersey-stage{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+ perspective:1000px;z-index:5}
+.jersey{width:355px;transform-style:preserve-3d;filter:drop-shadow(0 45px 28px rgba(0,0,0,.62));
+ animation:shirtEntry 4.8s cubic-bezier(.2,.8,.2,1) forwards}
+.jersey svg{display:block;width:100%;height:auto}
+.jersey-shadow{position:absolute;width:390px;height:65px;left:50%;top:61%;transform:translate(-50%,-50%);
+ background:radial-gradient(ellipse,rgba(0,0,0,.7),transparent 70%);filter:blur(12px);animation:shadowIn 4.8s ease forwards}
+@keyframes shirtEntry{
+  0%{opacity:0;transform:translate3d(-520px,170px,0) rotateY(-42deg) rotateZ(-8deg) scale(.62)}
+  35%{opacity:1;transform:translate3d(-160px,30px,0) rotateY(-18deg) rotateZ(3deg) scale(.83)}
+  62%{transform:translate3d(80px,-12px,0) rotateY(10deg) rotateZ(-2deg) scale(1.02)}
+  78%{transform:translate3d(-20px,4px,0) rotateY(-5deg) rotateZ(1deg) scale(.98)}
+  100%{opacity:1;transform:translate3d(0,0,0) rotateY(0) rotateZ(0) scale(1)}
+}
+@keyframes shadowIn{0%{opacity:0;transform:translate(-50%,-50%) scale(.35)}
+60%{opacity:.5;transform:translate(-50%,-50%) scale(.8)}
+100%{opacity:.75;transform:translate(-50%,-50%) scale(1)}}
+.caption{position:absolute;left:90px;right:90px;bottom:105px;text-align:center;z-index:30;
+ text-shadow:0 4px 18px #000}
+.caption-title{font-size:49px;font-weight:1000;letter-spacing:2px}
+.caption-sub{font-size:22px;margin-top:9px;letter-spacing:2px;font-weight:800;color:#d9bd49}

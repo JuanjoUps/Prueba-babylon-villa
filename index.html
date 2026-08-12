@@ -3,313 +3,89 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=1080,height=1920">
-<title>Villa de Buitrago — Estadio 3D V2</title>
-<style>
-  html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#020705}
-  #renderCanvas{width:1080px;height:1920px;display:block}
-  #hud{position:absolute;inset:0;pointer-events:none;font-family:Arial,sans-serif;color:#fff}
-  .top{position:absolute;top:48px;left:52px;right:52px;text-align:center}
-  .eyebrow{display:inline-block;background:rgba(5,44,24,.88);border:1px solid #d5ae2d;
-    padding:10px 28px;border-radius:20px;font-size:25px;font-weight:800;letter-spacing:2px}
-  .title{margin-top:16px;font-size:58px;font-weight:1000;letter-spacing:3px;
-    text-shadow:0 5px 20px #000}
-  .subtitle{margin-top:8px;font-size:27px;font-weight:800;letter-spacing:1px}
-  .bottom{position:absolute;bottom:54px;left:55px;right:55px;text-align:center}
-  .bottom .pill{display:inline-block;padding:12px 28px;border-radius:24px;
-    background:rgba(3,36,20,.86);border:1px solid #d5ae2d;font-size:23px;font-weight:800}
-</style>
+<title>Villa de Buitrago — Prueba V3</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<canvas id="renderCanvas"></canvas>
-<div id="hud">
-  <div class="top">
-    <div class="eyebrow">PRUEBA ESCENA 3D · C.D. VILLA DE BUITRAGO</div>
-    <div class="title">EL PEÑALTA</div>
-    <div class="subtitle">ESTADIO · NOCHE · PRESENTACIÓN DE ALINEACIÓN</div>
+<div class="scene">
+  <div class="stadium-glow"></div>
+  <div class="stands stands-top"></div>
+  <div class="stands stands-bottom"></div>
+  <div class="light light-a"></div><div class="light light-b"></div>
+  <div class="light light-c"></div><div class="light light-d"></div>
+
+  <div class="title">
+    <div class="eyebrow">C.D. VILLA DE BUITRAGO</div>
+    <h1>ALINEACIÓN TITULAR</h1>
+    <div class="sub">PRUEBA DE ANIMACIÓN · ESCENA 3D/2.5D</div>
   </div>
-  <div class="bottom"><span class="pill">CAMPO 3D · ILUMINACIÓN · SOMBRAS · CÁMARA CINEMATOGRÁFICA</span></div>
+
+  <div class="pitch">
+    <div class="pitch-lines"></div>
+    <div class="center-circle"></div>
+    <div class="center-dot"></div>
+    <div class="box top-box"></div><div class="box bottom-box"></div>
+    <div class="goal top-goal"></div><div class="goal bottom-goal"></div>
+    <div class="grass-noise"></div>
+
+    <div class="jersey-stage">
+      <div class="jersey-shadow"></div>
+      <div class="jersey" id="jersey">
+        <svg viewBox="0 0 500 600" aria-label="Camiseta Villa de Buitrago">
+          <defs>
+            <linearGradient id="green" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0" stop-color="#073f20"/>
+              <stop offset=".28" stop-color="#159447"/>
+              <stop offset=".55" stop-color="#087b38"/>
+              <stop offset=".82" stop-color="#064b27"/>
+              <stop offset="1" stop-color="#022b18"/>
+            </linearGradient>
+            <linearGradient id="gold" x1="0" x2="1">
+              <stop stop-color="#fff09b"/><stop offset=".35" stop-color="#e9bd2d"/>
+              <stop offset=".7" stop-color="#fff09b"/><stop offset="1" stop-color="#b9870d"/>
+            </linearGradient>
+            <filter id="shadow"><feGaussianBlur stdDeviation="13"/></filter>
+            <filter id="soft"><feGaussianBlur stdDeviation="3"/></filter>
+            <pattern id="fabric" width="12" height="12" patternUnits="userSpaceOnUse">
+              <path d="M0 2H12 M0 8H12" stroke="#fff" stroke-opacity=".035" stroke-width="1"/>
+              <path d="M2 0V12 M8 0V12" stroke="#000" stroke-opacity=".04" stroke-width="1"/>
+            </pattern>
+          </defs>
+          <path d="M145 72 L190 35 Q250 15 310 35 L355 72 L458 125 L420 245 L350 210 L350 535 Q250 570 150 535 L150 210 L80 245 L42 125 Z"
+                fill="#000" opacity=".35" transform="translate(7 13)" filter="url(#shadow)"/>
+          <path d="M145 72 L190 35 Q250 15 310 35 L355 72 L458 125 L420 245 L350 210 L350 535 Q250 570 150 535 L150 210 L80 245 L42 125 Z"
+                fill="url(#green)" stroke="#031d10" stroke-width="8"/>
+          <path d="M145 72 L190 35 Q250 15 310 35 L355 72 L458 125 L420 245 L350 210 L350 535 Q250 570 150 535 L150 210 L80 245 L42 125 Z"
+                fill="url(#fabric)"/>
+          <path d="M190 35 Q250 72 310 35" fill="none" stroke="#050b08" stroke-width="18"/>
+          <path d="M194 38 Q250 67 306 38" fill="none" stroke="url(#gold)" stroke-width="5"/>
+          <path d="M83 126 L125 102 L153 188 L82 230" fill="#0a5a2d" stroke="#0a2416" stroke-width="6"/>
+          <path d="M417 126 L375 102 L347 188 L418 230" fill="#0a5a2d" stroke="#0a2416" stroke-width="6"/>
+          <path d="M154 206 Q250 226 346 206" fill="none" stroke="#8ed66b" stroke-opacity=".18" stroke-width="4"/>
+          <path d="M150 535 Q250 570 350 535" fill="none" stroke="#c89d20" stroke-width="7"/>
+          <!-- simple club badge -->
+          <path d="M213 91 Q250 73 287 91 L279 137 Q250 164 221 137Z" fill="#e7bf32" stroke="#111" stroke-width="5"/>
+          <circle cx="250" cy="99" r="11" fill="#fff"/>
+          <path d="M230 123 Q250 101 270 123 Q250 145 230 123" fill="#155d2e"/>
+          <text x="250" y="132" text-anchor="middle" font-family="Arial" font-size="10" font-weight="900" fill="#111">VILLA</text>
+          <!-- dorsal -->
+          <text x="250" y="315" text-anchor="middle" font-family="Arial Black,Arial" font-size="142" font-weight="900"
+                fill="#f5c934" stroke="#1a3d24" stroke-width="7" paint-order="stroke">10</text>
+          <text x="250" y="373" text-anchor="middle" font-family="Arial" font-size="28" font-weight="900"
+                fill="#fff" letter-spacing="3">JUANITO</text>
+          <!-- fabric highlights -->
+          <path d="M112 143 Q145 115 175 105" stroke="#fff" stroke-opacity=".17" stroke-width="8" fill="none" filter="url(#soft)"/>
+          <path d="M330 95 Q365 112 397 145" stroke="#fff" stroke-opacity=".10" stroke-width="9" fill="none" filter="url(#soft)"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="caption">
+    <div class="caption-title">10 · JUANITO</div>
+    <div class="caption-sub">LA CAMISETA ENTRA EN ESCENA</div>
+  </div>
 </div>
-
-<script src="https://cdn.babylonjs.com/babylon.js"></script>
-<script>
-const canvas = document.getElementById("renderCanvas");
-const engine = new BABYLON.Engine(canvas, true, {
-  preserveDrawingBuffer:true, stencil:true, antialias:true
-}, true);
-engine.setHardwareScalingLevel(1);
-
-const scene = new BABYLON.Scene(engine);
-scene.clearColor = new BABYLON.Color4(0.004,0.010,0.007,1);
-scene.fogMode = BABYLON.Scene.FOGMODE_EXP2;
-scene.fogDensity = 0.008;
-scene.fogColor = new BABYLON.Color3(0.008,0.018,0.012);
-
-const V = BABYLON.Vector3;
-const C = BABYLON.Color3;
-
-function mat(name, color, opts={}) {
-  const m = new BABYLON.StandardMaterial(name, scene);
-  m.diffuseColor = color;
-  m.specularColor = opts.specular || new C(.18,.18,.18);
-  if(opts.emissive) m.emissiveColor = opts.emissive;
-  if(opts.alpha !== undefined) m.alpha = opts.alpha;
-  return m;
-}
-
-const grass = mat("Grass", new C(.025,.22,.075), {specular:new C(.05,.12,.05)});
-const grass2 = mat("GrassAlt", new C(.032,.28,.095), {specular:new C(.05,.12,.05)});
-const white = mat("Lines", new C(.92,.94,.88));
-const dark = mat("Stands", new C(.012,.022,.017));
-const seatGreen = mat("SeatsGreen", new C(.018,.14,.075));
-const seatDark = mat("SeatsDark", new C(.012,.055,.034));
-const gold = mat("Gold", new C(.72,.50,.06), {emissive:new C(.12,.07,.01)});
-const black = mat("Black", new C(.004,.006,.005));
-const yellow = mat("AwayShirt", new C(.92,.65,.025), {specular:new C(.3,.22,.05)});
-const green = mat("HomeShirt", new C(.015,.42,.13), {specular:new C(.15,.22,.12)});
-const skin = mat("Skin", new C(.48,.29,.18));
-const socks = mat("Socks", new C(.02,.05,.03));
-const boots = mat("Boots", new C(.025,.028,.025));
-const glass = mat("Glass", new C(.04,.20,.11), {alpha:.20});
-const lightMat = mat("Floodlight", new C(1,1,1), {emissive:new C(1,.96,.82)});
-
-// Ground under stadium
-const base = BABYLON.MeshBuilder.CreateGround("stadiumBase",{width:70,height:82},scene);
-base.material = mat("Base", new C(.005,.009,.007));
-
-// Pitch
-const pitch = BABYLON.MeshBuilder.CreateGround("pitch",{width:32,height:52},scene);
-pitch.position.y=.08;
-pitch.material=grass;
-
-// Alternating turf stripes
-for(let i=-8;i<8;i++){
-  const stripe = BABYLON.MeshBuilder.CreateGround("turfStripe",{width:2,height:52},scene);
-  stripe.position.set(i*2+1,.085,0);
-  stripe.material = (i%2===0)?grass2:grass;
-}
-
-// Field markings
-function box(name,w,h,d,x,y,z,material){
-  const m=BABYLON.MeshBuilder.CreateBox(name,{width:w,height:h,depth:d},scene);
-  m.position.set(x,y,z); m.material=material; return m;
-}
-function lineX(z,w=32){ return box("fieldLine",w,.035,.10,0,.115,z,white); }
-function lineZ(x,d=52){ return box("fieldLine",.10,.035,d,x,.115,0,white); }
-lineX(-26); lineX(26); lineZ(-16); lineZ(16); lineX(0);
-const centerCircle=BABYLON.MeshBuilder.CreateTorus("centerCircle",{diameter:9,thickness:.10,tessellation:96},scene);
-centerCircle.rotation.x=Math.PI/2; centerCircle.position.y=.125; centerCircle.material=white;
-const centerSpot=BABYLON.MeshBuilder.CreateSphere("centerSpot",{diameter:.22},scene);
-centerSpot.position.set(0,.15,0); centerSpot.material=white;
-
-// Penalty areas / 6-yard boxes
-function rectOutline(cx,cz,w,d){
-  lineX(cz-d/2,w); lineX(cz+d/2,w); lineZ(cx-w/2,d); lineZ(cx+w/2,d);
-}
-rectOutline(0,-26+5.5,18,11);
-rectOutline(0,26-5.5,18,11);
-rectOutline(0,-26+2.2,9,4.4);
-rectOutline(0,26-2.2,9,4.4);
-
-// Goals
-function goal(z, flip){
-  const postMat=white;
-  const x1=-4.5, x2=4.5, y=3.1;
-  box("goalPost",.22,6.2,.22,x1,3.1,z,postMat);
-  box("goalPost",.22,6.2,.22,x2,3.1,z,postMat);
-  box("goalBar",9.22,.22,.22,0,6.1,z,postMat);
-  // net bars
-  for(let x=-4.5;x<=4.5;x+=.75) box("net",.025,6,.025,x,3.05,z+(flip?1.8:-1.8),glass);
-}
-
-// Put goals at ends
-goal(-26.1,false); goal(26.1,true);
-
-// Stands / terraces
-function standRow(z, side){
-  const start=-28, end=28;
-  for(let x=start;x<=end;x+=2.1){
-    for(let r=0;r<5;r++){
-      const y=.65+r*.72;
-      const depth=1.5;
-      const dz=side==="north" ? z+r*1.35 : z-r*1.35;
-      const s=box("standSeat",1.8,.55,1.0,x,y,dz,(r%2===0?seatGreen:seatDark));
-      s.rotation.y=(side==="north"?0:0);
-    }
-  }
-}
-standRow(-31,"north");
-standRow(31,"south");
-
-function sideStand(x, side){
-  for(let z=-23;z<=23;z+=2.1){
-    for(let r=0;r<4;r++){
-      const y=.65+r*.72;
-      const dx=side==="west" ? x-r*1.25 : x+r*1.25;
-      box("sideSeat",1.0,.55,1.8,dx,y,z,(r%2?seatDark:seatGreen));
-    }
-  }
-}
-sideStand(-21,"west"); sideStand(21,"east");
-
-// Roof / dark fascia
-box("northFascia",70,4,1.2,0,4,-39,dark);
-box("southFascia",70,4,1.2,0,4,39,dark);
-box("westFascia",1.2,4,70,-39,4,0,dark);
-box("eastFascia",1.2,4,70,39,4,0,dark);
-
-// Advertising boards
-function adBoard(x,z,rot,label){
-  const b=box("ad",7,.9,.12,x,1.05,z,gold);
-  b.rotation.y=rot;
-  return b;
-}
-for(let x=-24;x<=24;x+=8){ adBoard(x,-29,0); adBoard(x,29,0); }
-for(let z=-20;z<=20;z+=8){ adBoard(-20,z,Math.PI/2); adBoard(20,z,Math.PI/2); }
-
-// Floodlights
-const glow = new BABYLON.GlowLayer("Glow",scene);
-glow.intensity=0.75;
-
-function flood(x,z,rot=0){
-  const pole=box("pole",.35,13,.35,x,6.5,z,dark);
-  const arm=box("arm",.3,.3,4,x,12.7,z,black);
-  arm.rotation.y=rot;
-  for(let i=-2;i<=2;i++){
-    const lamp=BABYLON.MeshBuilder.CreateBox("lamp",{width:.45,height:.35,depth:.15},scene);
-    lamp.position.set(x+i*.55,12.55,z);
-    lamp.material=lightMat;
-  }
-  const beam=BABYLON.MeshBuilder.CreateCylinder("beam",{height:24,diameterTop:1.2,diameterBottom:8,tessellation:32},scene);
-  beam.position.set(x,-.5,z);
-  beam.material=mat("Beam"+x+z,new C(1,.95,.75),{alpha:.025,emissive:new C(.8,.75,.5)});
-}
-flood(-28,-25); flood(28,-25); flood(-28,25); flood(28,25);
-
-// Subtle moon / stadium sky
-const moon=BABYLON.MeshBuilder.CreateSphere("moon",{diameter:8,segments:32},scene);
-moon.position.set(-30,32,-48);
-moon.material=mat("Moon",new C(.35,.42,.37),{emissive:new C(.15,.18,.16)});
-
-// Player creation: actual volumetric shirt silhouette
-function shirtPlayer(name,num,x,z,teamMat,delay){
-  const root=new BABYLON.TransformNode(name,scene);
-  root.position.set(x,.16,z);
-  root.scaling.set(.01,.01,.01);
-
-  // torso
-  const torso=box("shirtBody",1.45,1.65,.68,0,1.75,0,teamMat);
-  torso.parent=root;
-  // shoulder / sleeves
-  const sl1=BABYLON.MeshBuilder.CreateCylinder("sleeveL",{height:.62,diameter:.52,tessellation:24},scene);
-  sl1.parent=root; sl1.rotation.z=Math.PI/2; sl1.position.set(-.88,2.15,0); sl1.material=teamMat;
-  const sl2=sl1.clone("sleeveR"); sl2.parent=root; sl2.position.x=.88;
-  // neck
-  const neck=BABYLON.MeshBuilder.CreateCylinder("neck",{height:.25,diameter:.42},scene);
-  neck.parent=root; neck.position.y=2.72; neck.material=skin;
-  // head
-  const head=BABYLON.MeshBuilder.CreateSphere("head",{diameter:.82,segments:24},scene);
-  head.parent=root; head.position.y=3.18; head.material=skin;
-  // shorts
-  const shorts=box("shorts",1.35,.55,.65,0,.62,0,black); shorts.parent=root;
-  // legs
-  for(const sx of [-.36,.36]){
-    const leg=BABYLON.MeshBuilder.CreateCylinder("leg",{height:1.0,diameter:.34},scene);
-    leg.parent=root; leg.position.set(sx,.05,0); leg.material=skin;
-    const sock=BABYLON.MeshBuilder.CreateCylinder("sock",{height:.65,diameter:.42},scene);
-    sock.parent=root; sock.position.set(sx,-.63,0); sock.material=socks;
-    const boot=box("boot",.58,.25,1.0,sx,-1.05,-.18,boots); boot.parent=root;
-  }
-
-  // Dorsal on front/back
-  const dt=new BABYLON.DynamicTexture("numberTex",{width:256,height:256},scene,true);
-  dt.hasAlpha=true;
-  const ctx=dt.getContext();
-  ctx.clearRect(0,0,256,256);
-  ctx.fillStyle="white"; ctx.font="bold 150px Arial"; ctx.textAlign="center"; ctx.textBaseline="middle";
-  ctx.fillText(String(num),128,135); dt.update();
-  const numMat=new BABYLON.StandardMaterial("numMat",scene);
-  numMat.diffuseTexture=dt; numMat.emissiveColor=new C(.12,.12,.12);
-  const number=BABYLON.MeshBuilder.CreatePlane("dorsal",{width:.65,height:.65},scene);
-  number.parent=root; number.position.set(0,1.75,-.355); number.rotation.y=Math.PI; number.material=numMat;
-
-  // name plate floats just below
-  const nt=new BABYLON.DynamicTexture("nameTex",{width:512,height:128},scene,true);
-  const nc=nt.getContext(); nc.fillStyle="rgba(0,0,0,.82)"; nc.fillRect(0,0,512,128);
-  nc.fillStyle="#fff"; nc.font="bold 46px Arial"; nc.textAlign="center"; nc.textBaseline="middle";
-  nc.fillText(num+". "+name,256,64); nt.update();
-  const nm=new BABYLON.StandardMaterial("nameMat",scene); nm.diffuseTexture=nt; nm.emissiveColor=new C(.08,.08,.08);
-  const plate=BABYLON.MeshBuilder.CreatePlane("namePlate",{width:1.9,height:.48},scene);
-  plate.parent=root; plate.position.set(0,-1.48,-.15); plate.rotation.y=Math.PI; plate.material=nm;
-
-  // animate entrance
-  setTimeout(()=>{
-    const start=performance.now();
-    function tick(){
-      const t=Math.min(1,(performance.now()-start)/800);
-      const e=1-Math.pow(1-t,3);
-      root.scaling.set(e,e,e);
-      root.position.y=.16+Math.sin(e*Math.PI)*.15;
-      if(t<1) requestAnimationFrame(tick);
-    }
-    tick();
-  },delay);
-}
-
-// 10 field players; later this list will come from the acta
-[
- ["ADRIÁN",1,0,20],
- ["DIEGO",3,-5,14],
- ["SERGIO",5,0,14],
- ["RAÚL",2,5,14],
- ["PABLO",8,-3,7],
- ["ÁLVARO",6,3,7],
- ["HUGO",11,-6,0],
- ["JUANITO",10,0,0],
- ["MARIO",7,6,0],
- ["MATEO",9,0,-7]
-].forEach((p,i)=>shirtPlayer(...p,green,i*120));
-
-// Camera
-const camera=new BABYLON.ArcRotateCamera(
-  "camera",-Math.PI/2,1.02,49,new V(0,1.0,0),scene
-);
-camera.fov=.72;
-camera.minZ=.1;
-camera.maxZ=200;
-scene.activeCamera=camera;
-
-// Lights
-const hemi=new BABYLON.HemisphericLight("ambient",new V(0,1,0),scene);
-hemi.intensity=.32;
-hemi.diffuse=new C(.55,.72,.60);
-
-const key=new BABYLON.DirectionalLight("key",new V(-.25,-1,.45),scene);
-key.intensity=1.2;
-key.position=new V(15,22,-18);
-
-const shadow=new BABYLON.ShadowGenerator(2048,key);
-shadow.useBlurExponentialShadowMap=true;
-shadow.blurKernel=24;
-shadow.darkness=.55;
-scene.meshes.forEach(m=>{ if(m.name!=="pitch" && m.name!=="stadiumBase") shadow.addShadowCaster(m); });
-pitch.receiveShadows=true;
-base.receiveShadows=true;
-
-// Cinematic camera movement
-const start=performance.now();
-function animateCamera(){
-  const t=(performance.now()-start)/1000;
-  const phase=Math.min(t/8,1);
-  camera.alpha=-Math.PI/2 + Math.sin(phase*Math.PI)*.18;
-  camera.radius=49 - Math.sin(phase*Math.PI)*7;
-  camera.beta=1.02 - Math.sin(phase*Math.PI)*.06;
-  camera.target.y=1.0 + Math.sin(phase*Math.PI)*.4;
-}
-engine.runRenderLoop(()=>{
-  animateCamera();
-  scene.render();
-});
-window.addEventListener("resize",()=>engine.resize());
-</script>
+<script src="scene.js"></script>
 </body>
 </html>
