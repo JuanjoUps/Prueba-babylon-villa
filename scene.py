@@ -258,7 +258,7 @@ look_at(key,(0,0,0))
 # ---------- render settings ----------
 sc=bpy.context.scene
 sc.frame_start=1; sc.frame_end=144; sc.render.fps=24
-sc.render.engine='BLENDER_EEVEE_NEXT'
+sc.render.engine='BLENDER_EEVEE'
 sc.render.resolution_x=540
 sc.render.resolution_y=960
 sc.render.resolution_percentage=100
