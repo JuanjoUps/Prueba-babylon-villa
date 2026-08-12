@@ -1,4 +1,4 @@
-name: V3 - Campo realista y camiseta animada
+name: V4 Blender - Estadio 3D real
 
 on:
   workflow_dispatch:
@@ -6,39 +6,36 @@ on:
 jobs:
   render:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 30
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Playwright
-        run: |
-          npm init -y
-          npm install playwright@1.55.0
-          npx playwright install --with-deps chromium
-
-      - name: FFmpeg
+      - name: Instalar Blender y FFmpeg
         run: |
           sudo apt-get update
-          sudo apt-get install -y ffmpeg
+          sudo apt-get install -y blender ffmpeg
 
-      - name: Render
-        run: node render.js
+      - name: Mostrar versión
+        run: blender --version
 
-      - name: MP4
+      - name: Generar y renderizar escena Blender
         run: |
-          ffmpeg -y -i recording.webm \
-            -vf "fps=30,scale=1080:1920:flags=lanczos" \
-            -c:v libx264 -preset medium -crf 19 \
-            -pix_fmt yuv420p -movflags +faststart \
-            villa-v3-campo-camiseta.mp4
+          blender --background --python scene.py
 
-      - name: Artifact
+      - name: Renombrar vídeo
+        run: |
+          mv villa-v4-preview.mp4 villa-v4-estadio-3d.mp4
+
+      - name: Guardar vídeo
         uses: actions/upload-artifact@v4
         with:
-          name: villa-v3-campo-camiseta
-          path: villa-v3-campo-camiseta.mp4
+          name: villa-v4-estadio-3d
+          path: villa-v4-estadio-3d.mp4
+
+      - name: Guardar archivo Blender
+        uses: actions/upload-artifact@v4
+        with:
+          name: villa-v4-blend
+          path: villa-v4.blend
