@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080,height=1920">
+<title>Villa de Buitrago - Prueba 3D</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#06120b;font-family:Arial,sans-serif}
+#renderCanvas{width:1080px;height:1920px;display:block}
+#overlay{position:absolute;inset:0;pointer-events:none;color:white}
+.title{position:absolute;top:35px;left:0;right:0;text-align:center;font-size:58px;font-weight:900;letter-spacing:2px;text-shadow:0 5px 15px #000}
+.category{position:absolute;top:115px;left:50%;transform:translateX(-50%);background:#0c4c29;border:2px solid #d8a919;border-radius:0 0 14px 14px;padding:12px 60px;font-size:28px;font-weight:900}
+.card{position:absolute;top:180px;left:45px;right:45px;height:205px;border:2px solid #d8a919;border-radius:20px;background:rgba(5,12,9,.93);display:flex;align-items:center;justify-content:center;gap:35px;box-shadow:0 15px 35px #0009}
+.team{width:290px;text-align:center;font-size:27px;font-weight:900;line-height:1.05}.score{font-size:88px;font-weight:1000}.score b{color:#e8bd35}
+.label{position:absolute;top:415px;left:50%;transform:translateX(-50%);background:#0c4c29;border:1px solid #d8a919;border-radius:13px;padding:10px 45px;font-size:29px;font-weight:900}
+.footer{position:absolute;bottom:55px;left:45px;right:45px;text-align:center;font-size:23px;font-weight:800;text-shadow:0 3px 8px #000}
+</style>
+</head>
+<body>
+<canvas id="renderCanvas"></canvas>
+<div id="overlay">
+  <div class="title">RESULTADO FINAL</div>
+  <div class="category">PRIMERA INFANTIL</div>
+  <div class="card">
+    <div class="team">🟢<br>VILLA DE BUITRAGO</div>
+    <div class="score"><b>3</b> - 1</div>
+    <div class="team">🔴<br>C.D. ALDOVEA "A"</div>
+  </div>
+  <div class="label">ALINEACIÓN TITULAR</div>
+  <div class="footer">PRUEBA ESCENA 3D · BABYLON.JS · GITHUB ACTIONS</div>
+</div>
+<script src="https://cdn.babylonjs.com/babylon.js"></script>
+<script>
+const canvas=document.getElementById("renderCanvas");
+const engine=new BABYLON.Engine(canvas,true,{preserveDrawingBuffer:true,stencil:true},true);
+const scene=new BABYLON.Scene(engine);
+scene.clearColor=new BABYLON.Color4(.015,.055,.032,1);
+
+const camera=new BABYLON.ArcRotateCamera("camera",-Math.PI/2,1.08,27,new BABYLON.Vector3(0,0,1.5),scene);
+camera.lowerRadiusLimit=27; camera.upperRadiusLimit=27;
+camera.attachControl(canvas,false);
+
+const hemi=new BABYLON.HemisphericLight("hemi",new BABYLON.Vector3(0,1,0),scene);
+hemi.intensity=0.7;
+const key=new BABYLON.DirectionalLight("key",new BABYLON.Vector3(-.4,-1,.5),scene);
+key.intensity=1.6;
+key.position=new BABYLON.Vector3(8,12,-8);
+
+const ground=BABYLON.MeshBuilder.CreateGround("pitch",{width:18,height:28},scene);
+const grass=new BABYLON.StandardMaterial("grass",scene);
+grass.diffuseColor=new BABYLON.Color3(.055,.34,.14);
+grass.specularColor=new BABYLON.Color3(.08,.12,.08);
+ground.material=grass;
+
+for(let x=-8;x<=8;x+=2){
+  const line=BABYLON.MeshBuilder.CreateBox("stripe",{width:2,height:.012,depth:28},scene);
+  line.position.x=x;
+  const m=new BABYLON.StandardMaterial("m"+x,scene);
+  m.diffuseColor=new BABYLON.Color3(.065,.40,.17);
+  line.material=m;
+}
+
+function line(x,z,w,d){
+ const m=BABYLON.MeshBuilder.CreateBox("fieldLine",{width:w,height:.025,depth:d},scene);
+ m.position.set(x,.03,z);
+ const mat=new BABYLON.StandardMaterial("white",scene);
+ mat.diffuseColor=new BABYLON.Color3(1,1,1);
+ m.material=mat; return m;
+}
+line(0,0,18,.08); line(0,-14,18,.08); line(0,14,18,.08);
+line(-9,0,.08,28); line(9,0,.08,28);
+line(0,0,.08,28);
+
+const circle=BABYLON.MeshBuilder.CreateTorus("centerCircle",{diameter:5.5,thickness:.08,tessellation:96},scene);
+circle.rotation.x=Math.PI/2; circle.position.y=.04; circle.position.z=0;
+const white=circle.material=new BABYLON.StandardMaterial("circleMat",scene);
+white.diffuseColor=new BABYLON.Color3(1,1,1);
+
+function player(name,num,x,z,color,delay){
+ const root=new BABYLON.TransformNode(name,scene);
+ root.position.set(x,.15,z); root.scaling.set(.01,.01,.01);
+ const body=BABYLON.MeshBuilder.CreateBox("shirt",{width:1.05,height:1.35,depth:.48},scene);
+ body.parent=root; body.position.y=1.05;
+ const mat=new BABYLON.StandardMaterial(name+"mat",scene);
+ mat.diffuseColor=color; body.material=mat;
+ const head=BABYLON.MeshBuilder.CreateSphere("head",{diameter:.72,segments:24},scene);
+ head.parent=root; head.position.y=2.05;
+ const skin=new BABYLON.StandardMaterial(name+"skin",scene);
+ skin.diffuseColor=new BABYLON.Color3(.55,.34,.20); head.material=skin;
+ const n=BABYLON.MeshBuilder.CreatePlane("number",{width:.5,height:.42},scene);
+ n.parent=root; n.position.set(0,1.1,-.26); n.rotation.y=Math.PI;
+ const nt=new BABYLON.StandardMaterial(name+"num",scene);
+ nt.diffuseColor=new BABYLON.Color3(1,1,1); n.material=nt;
+ setTimeout(()=>{const start=performance.now(); const tick=()=>{let t=Math.min(1,(performance.now()-start)/650); t=1-Math.pow(1-t,3); root.scaling.set(t,t,t); if(t<1)requestAnimationFrame(tick)};tick()},delay);
+}
+const green=new BABYLON.Color3(.03,.42,.16);
+[
+["ADRIÁN",1,0,11],["DIEGO",3,-4,7],["SERGIO",5,0,7],["RAÚL",2,4,7],
+["PABLO",8,-3,3],["ÁLVARO",6,3,3],["HUGO",11,-5,-1],["JUANITO",10,0,-1],
+["MARIO",7,5,-1],["MATEO",9,0,-5]
+].forEach((p,i)=>player(...p,green,i*120));
+
+engine.runRenderLoop(()=>scene.render());
+window.addEventListener("resize",()=>engine.resize());
+</script>
+</body>
+</html>
