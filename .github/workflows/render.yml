@@ -12,19 +12,30 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Instalar Blender y FFmpeg
+      - name: Instalar Blender, FFmpeg y librerías gráficas
         run: |
           sudo apt-get update
-          sudo apt-get install -y blender ffmpeg
+          sudo apt-get install -y \
+            blender \
+            ffmpeg \
+            libegl1 \
+            libgl1 \
+            libglu1-mesa \
+            libx11-6 \
+            libxext6 \
+            libxi6 \
+            libxrender1 \
+            libxfixes3 \
+            libxkbcommon0
 
-      - name: Mostrar versión
+      - name: Mostrar versión de Blender
         run: blender --version
 
-      - name: Generar y renderizar escena Blender
+      - name: Renderizar escena Blender
         run: |
           blender --background --python scene.py
 
-      - name: Comprobar render
+      - name: Comprobar que se ha generado el vídeo
         run: |
           test -f villa-v4-preview.mp4
           ls -lh villa-v4-preview.mp4
